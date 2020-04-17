@@ -11,7 +11,8 @@ func main() {
 	// Using the Sleep function in the time package
 	// for halting the programs execution for three seconds.
 	time.Sleep(time.Second)
-	data := newDeckFromFile("my_cards.txt")
-	data.print()
+	cards = newDeckFromFile("my_cards.txt")
+	cards.shuffle()
+	cards.print()
 	fmt.Println("Completed!")
 }

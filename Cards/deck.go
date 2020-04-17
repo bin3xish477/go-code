@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"strings"
+	"math/rand"
 	"os"
+	"strings"
+	"time"
 )
 
 // Declaring a custom type 'deck'
@@ -58,9 +60,9 @@ func saveToFile(d deck, fileName string) error {
 	return ioutil.WriteFile(fileName, []byte(d.toString()), 0666)
 }
 
-// newDeckFromFile: A function that will read data from a 
+// newDeckFromFile: A function that will read data from a
 // file.
-func newDeckFromFile(fileName string) (deck) {
+func newDeckFromFile(fileName string) deck {
 	var receivedDeck deck
 	byteslice, err := ioutil.ReadFile(fileName)
 	// Handling error
@@ -76,4 +78,19 @@ func newDeckFromFile(fileName string) (deck) {
 		return deck(receivedDeck)
 	}
 	return receivedDeck
+}
+
+func (d deck) shuffle() {
+	src := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(src)
+	for i := range d {
+		newPost := r.Intn(len(d) - 1)
+		swap(i, newPost, &d)
+	}
+}
+
+// swap will randomly swap values in
+// a deck.
+func swap(i int, random int, d *deck) {
+	(*d)[i], (*d)[random] = (*d)[random], (*d)[i]
 }
