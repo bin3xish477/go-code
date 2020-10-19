@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/user"
+	"strconv"
 	"strings"
 
 	"github.com/fatih/color"
@@ -168,6 +169,31 @@ func getPrefetchFiles() {
 
 }
 
+func getRecycleBinFiles() {
+	recycleBinPath := `C:\$Recycle.Bin`
+	recycleBinFiles, err := ioutil.ReadDir(recycleBinPath)
+	check(err, "Unable to open recycle bin folder...")
+	currentUser, err := user.Current()
+	check(err, "Unable to get user info...")
+	userSID := currentUser.Uid
+
+	cyn := color.New(color.FgCyan)
+	boldCyan := cyn.Add(color.Bold)
+	boldCyan.Println("◎ ☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶ Recycle Bin Files ☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶☶ ◎")
+	print("")
+
+	for _, recycleFolder := range recycleBinFiles {
+		folderName := recycleFolder.Name()
+		if folderName == userSID {
+			userRecycleBinContents, err := ioutil.ReadDir(recycleBinPath + `\` + folderName)
+			check(err, "Unable able to open user's recycle bin folder...")
+			for _, recycledFile := range userRecycleBinContents {
+				print(recycledFile.ModTime().String() + " " + recycledFile.Name() + " " + strconv.Itoa(int(recycledFile.Size())))
+			}
+		}
+	}
+}
+
 func main() {
 	getComputerInfo()
 	getInstalledApps()
@@ -175,4 +201,7 @@ func main() {
 	getStartUpApps()
 	getJumpLists()
 	getLNKFiles()
+	getShellBags()
+	getPrefetchFiles()
+	getRecycleBinFiles()
 }
