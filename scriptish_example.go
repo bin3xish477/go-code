@@ -1,5 +1,7 @@
 package main
 
+// scriptish is a Go package to port Unix Bash scripts to Go binaries
+
 import (
 	"fmt"
 
