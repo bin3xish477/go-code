@@ -10,12 +10,12 @@ import (
         "testing"
 )
 
-//func BenchmarkSprintf(b *testing.B) {
-//var s string
-//for n := 0; n < b.N; n++ {
-//s = fmt.Sprintf("%s%s", s, "a")
-//}
-//}
+func BenchmarkSprintf(b *testing.B) {
+        var s string
+        for n := 0; n < b.N; n++ {
+                s = fmt.Sprintf("%s%s", s, "a")
+        }
+}
 
 func BenchmarkBytesBuffer(b *testing.B) {
         var buf bytes.Buffer
