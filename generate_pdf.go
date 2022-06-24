@@ -88,7 +88,7 @@ func main() {
 			m.Col(12, func() {
 				m.Text(strconv.Itoa(m.GetCurrentPage())+"/{nb}", props.Text{
 					Align: consts.Right,
-					Size:  8,
+					Size:  10,
 				})
 			})
 		})
