@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/johnfercher/maroto/pkg/color"
@@ -50,10 +51,11 @@ func main() {
 	m.Row(20, func() {
 		m.Col(12, func() {
 			m.Text("Parsed Headers", props.Text{
-				Size:   12,
-				Top:    5,
-				Align:  consts.Center,
+				Size: 12,
+				Top:  8,
+				//Align:  consts.Center,
 				Family: consts.Helvetica,
+				Color:  color.Color{150, 0, 0},
 			})
 		})
 	})
@@ -80,6 +82,17 @@ func main() {
 			Line: true,
 		},
 	)
+
+	m.RegisterFooter(func() {
+		m.Row(10, func() {
+			m.Col(12, func() {
+				m.Text(strconv.Itoa(m.GetCurrentPage())+"/{nb}", props.Text{
+					Align: consts.Right,
+					Size:  8,
+				})
+			})
+		})
+	})
 
 	err := m.OutputFileAndClose("./learn.pdf")
 	if err != nil {
